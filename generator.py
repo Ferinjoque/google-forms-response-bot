@@ -1,48 +1,46 @@
-""" Generator module for generating form request data """
+"""
+Módulo que genera el cuerpo de la petición a partir de los campos extraídos.
+"""
 import json
 
 
-def generate_form_request_dict(entries, with_comment: bool = True):
-    """ Generate a dict of form request data from entries """
+def generate_form_request_dict(entries, with_comment=True):
+    """
+    Crea un diccionario formateado como JSON con los IDs y valores de cada campo.
+
+    entries: lista de dicts con info de cada campo.
+    with_comment: si True, añade comentarios encima de cada clave.
+    Devuelve: str con formato JSON.
+    """
     result = "{\n"
-    entry_id = 0
-    for entry in entries:
+    total = len(entries)
+    for idx, entry in enumerate(entries, 1):
         if with_comment:
-            # gen name of entry
-            result += f"    # {entry['container_name']}{(': ' + entry['name']) if entry.get('name') else ''}{' (required)' * entry['required']}\n"
-            # gen all options (if any)
-            if entry['options']:
-                result += f"    #   Options: {entry['options']}\n"
+            comment = entry['container_name']
+            if entry.get('name'):
+                comment += f": {entry['name']}"
+            if entry['required']:
+                comment += " (requerido)"
+            result += f"    # {comment}\n"
+            if entry.get('options'):
+                result += f"    #   Opciones: {entry['options']}\n"
             else:
-                result += f"    #   Option: {get_form_type_value_rule(entry['type'])}\n"
-        # gen entry id
-        entry_id += 1
-        default_value = entry.get("default_value", "")
-        default_value = json.dumps(default_value, ensure_ascii=False)
-            
-        if entry.get("type") == "required":
-            result += f'    "{entry["id"]}": {default_value}'
-        else:
-            result += f'    "entry.{entry["id"]}": {default_value}'
-        result += f"{(entry_id < len(entries)) * ','}\n"
-    # remove the last comma
+                rule = get_form_type_value_rule(entry['type'])
+                result += f"    #   Formato: {rule}\n"
+        val = json.dumps(entry.get('default_value', ''), ensure_ascii=False)
+        key = entry['id'] if entry['type'] == 'required' else f"entry.{entry['id']}"
+        comma = ',' if idx < total else ''
+        result += f'    "{key}": {val}{comma}\n'
     result += "}"
     return result
 
+
 def get_form_type_value_rule(type_id):
-    ''' ------ TYPE ID ------ 
-        0: Short answer
-        1: Paragraph
-        2: Multiple choice
-        3: Dropdown
-        4: Checkboxes
-        5: Linear scale
-        7: Grid choice
-        9: Date
-        10: Time
-    '''
+    """
+    Regla de formato por tipo de campo.
+    """
     if type_id == 9:
         return "YYYY-MM-DD"
     if type_id == 10:
-        return "HH:MM (24h format)"
-    return "any text"
+        return "HH:MM (24h)"
+    return "texto libre"
