@@ -48,18 +48,14 @@
    ```
 
 ## Uso Rápido
-1. Ajusta en bot.py:
-   - La constante URL al formResponse de tu formulario.
-   - La función generate_survey_data() con tus preguntas y pesos.
-2. Ejecuta el bot para enviar respuestas repetidas:
-   ```
-   python bot.py
-   ```
-3. Para extraer campos y generar un payload personalizado:
+1. Para extraer campos y generar un payload personalizado:
    ```
    python form.py 'https://docs.google.com/forms/d/e/.../formResponse' -o resultados.json
    ```
-4. Usa `main.py` para combinar extracción y envío automático:
+2. Ajusta en bot.py:
+   - La constante URL al formResponse de tu formulario.
+   - La función generate_survey_data() con tus preguntas y pesos.
+3. Usa `main.py` para combinar extracción y envío automático:
    ```
    python main.py 'https://docs.google.com/forms/d/e/.../formResponse' -r
    ```
