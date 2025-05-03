@@ -33,7 +33,7 @@
 1. Clona este repositorio:  
    ```
    bash
-   git clone https://github.com/TU-USUARIO/GoogleFormsBot.git
+   git clone https://github.com/Ferinjoque/GoogleFormsBot.git
    cd GoogleFormsBot
    ```
 2. Crea y activa un entorno virtual (opcional pero recomendado):
