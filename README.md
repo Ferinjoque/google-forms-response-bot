@@ -32,9 +32,8 @@
 ## Instalación
 1. Clona este repositorio:  
    ```
-   bash
-   git clone https://github.com/Ferinjoque/GoogleFormsBot.git
-   cd GoogleFormsBot
+   git clone https://github.com/Ferinjoque/google-forms-response-bot.git
+   cd google-forms-response-bot
    ```
 2. Crea y activa un entorno virtual (opcional pero recomendado):
    ```
